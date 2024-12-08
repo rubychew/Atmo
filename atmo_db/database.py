@@ -1,12 +1,12 @@
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import Session, create_engine
+import os
 
 #Database setup
-DB_NAME = 'atmo.db'
-DB_URL = f'sqlite:///./atmo_db/{DB_NAME}'
+DB_PATH = os.path.join(os.path.dirname(__file__), 'db', 'atmo.db')
+print(f'db path: {DB_PATH}')
+DB_URL = "sqlite:////app/atmo_db/atmo.db"
 engine = create_engine(DB_URL, connect_args=
                       {'check_same_thread': False})
-
-SQLModel.metadata.create_all(engine) #move to main?
 
 #dependency
 def get_session():

@@ -3,8 +3,14 @@ from fastapi.templating import Jinja2Templates
 from atmo_db.database import engine
 from sqlmodel import SQLModel
 
+
+
 app = FastAPI()
-SQLModel.metadata.create_all(engine)
+@app.on_event("startup")
+async def startup_event():
+    print(engine)
+    SQLModel.metadata.create_all(engine)
+
 
 templates = Jinja2Templates(directory="templates")
 
