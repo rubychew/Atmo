@@ -2,12 +2,13 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from atmo_db.database import engine
 from sqlmodel import SQLModel
+from atmo_db.models import User, Audio_File
 
 
 
 app = FastAPI()
 @app.on_event("startup")
-async def startup_event():
+def startup_event():
     print(engine)
     SQLModel.metadata.create_all(engine)
 
