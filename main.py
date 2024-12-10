@@ -1,28 +1,17 @@
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI
 from atmo_db.database import engine
 from sqlmodel import SQLModel
+# Model imports required for the engine to create the schema
 from atmo_db.models import User, Audio_File
 
-
+from routers import auth, audio_files
 
 app = FastAPI()
+
+#create db schema on startup
 @app.on_event("startup")
-def startup_event():
-    print(engine)
+async def startup_event():
     SQLModel.metadata.create_all(engine)
 
-
-templates = Jinja2Templates(directory="templates")
-
-@app.get("/")
-def get_index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-@app.get("/register")
-def register(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
-
-@app.get("/audio-files")
-def list_files(request: Request):
-    return templates.TemplateResponse("audio-files.html", {"request": request})
+app.include_router(auth.router)
+app.include_router(audio_files.router)
