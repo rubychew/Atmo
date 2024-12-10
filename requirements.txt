@@ -5,3 +5,5 @@ watchfiles==1.0.0
 Jinja2==3.1.4
 sqlmodel==0.0.22
 pytest==8.3.4
+bcrypt==4.2.1
+passlib==1.7.4
