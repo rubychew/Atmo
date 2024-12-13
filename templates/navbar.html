@@ -30,11 +30,11 @@
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4 items-center">
-               {%if standard or Admin or Owner%}
+               {%if standard or admin or owner %}
                     <p class="text-atmogreen text-sm font-bold">Welcome {{username}}!</p>
                     <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-atmogreen hover:bg-gray-700 hover:text-white">My Files</a>
                 {% endif %}
-                {% if Admin or Owner %}
+                {% if admin or owner %}
                      <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-atmogreen hover:bg-gray-700 hover:text-white">Admin Area</a>
                 {% endif %}
             </div>
@@ -44,7 +44,7 @@
   
   
             <div class="absolute right-0 origin-top-right">
-              {% if standard or Admin or Owner %}
+              {% if standard or admin or owner %}
                 <a href="/logout" class="block px-4 py-2 text-sm text-atmogreen">Log Out</a>
               {% endif %}
              

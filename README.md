@@ -25,3 +25,15 @@ docker-compose up
 ```
 
 
+There a number of accounts already in the database. They have either standard, admin, or owner privileges. See table below for reference. Standard users can only see and manage their own files. Admins and owners can access the Admin area and manage standard users. Only the owner can elevate the privileges of a standard user to admin. Any user who registers is set to standard user by default. **The application currently only accepts sign-up with a ncirl.ie domain.** Passwords can be between 8 to 20 characters inclusive and must have and uppercase, lowercase, number and special character. Not all special characters will be accepted.
+
+|#|Username|Email|Privilege|Password|
+|-|--------|-----|---------|--------|
+|1|Alice|alice@ncirl.ie|standard|P@ssword123|
+|2|Bob|bob@ncirl.ie|owner|P@ssword123|
+|3|Carla|carla@ncirl.ie|admin|P@ssword123|
+|4|Dan|dan@ncirl.ie|standard|P@ssword123|
+|5|Emma|emma@ncirl.ie|standard|P@ssword123|
+|6|Fran|fran@ncirl.ie|standard|P@ssword123|
+|7|Greg|greg@ncirl.ie|standard|P@ssword123|
+|8|Helen|helen@ncirl.ie|standard|P@ssword123|

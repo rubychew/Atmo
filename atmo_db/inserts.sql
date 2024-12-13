@@ -8,3 +8,9 @@ INSERT into Audio_File (title, description, file_type, url, user_id) VALUES ('El
 -- INSERT into Audio_File (title, description, file_type, url, user_id) VALUES ('audio two', 'recording', 'mp3', 'https://domain.com/audio_one.mp3', 2);
 -- INSERT into Audio_File (title, description, file_type, url, user_id) VALUES ('some interview', 'podcast', 'mp3', 'https://domain.com/audio_one.mp3', 3);
 
+
+
+INSERT into User (username, email, role, password) VALUES ('Alice', 'alice@ncirl.ie', 'standard', 'P@ssword123'); 
+INSERT into User (username, email, role, password) VALUES ('Bob', 'bob@ncirl.ie', 'owner', 'P@ssword123'); 
+INSERT into User (username, email, role, password) VALUES ('Carla', 'carla@ncirl.ie', 'admin', 'P@ssword123'); 
+INSERT into User (username, email, role, password) VALUES ('Dan', 'dan@ncirl.ie', 'standard', 'P@ssword123'); 
