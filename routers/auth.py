@@ -1,13 +1,18 @@
-from fastapi import APIRouter, Request, Form, HTTPException, Depends
+from fastapi import APIRouter, Request, Response, Form, HTTPException, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from typing_extensions import Annotated
 from passlib.context import CryptContext
 from atmo_db.models import User
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import re
 from atmo_db.database import get_session
 from sqlmodel import Session, select
+import os
+from dotenv import load_dotenv
+from jose import jwt
+
+load_dotenv()
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -81,7 +86,7 @@ def register(request: Request):
 # login / authentication routes -------------------------------------------------------------------
 
 @router.post("/login")
-async def authenticate_login(email: Annotated[str, Form()],
+async def authenticate_login(response: Response, email: Annotated[str, Form()],
                                 password: Annotated[str, Form()],
                                 session: Session = Depends(get_session)):
 
@@ -97,6 +102,34 @@ async def authenticate_login(email: Annotated[str, Form()],
     if not bcrypt_context.verify(password, user.password):
         return 'Authentication Failed'
     
-    # otherwise issue JWT token and redirect to TOTP page
-    return {'Success': 'logged in'}
-    
+    # otherwise issue JWT token and redirect
+    jwt_token = create_jwt_token(user.email, user.id, timedelta(minutes=15))
+
+    response = RedirectResponse(url='/audio-files', status_code=303)
+
+    #cookie config to include
+    # domain
+    # same site strict - requests must originate from the same-site
+    # secure todo - need to set up ssl
+    # http only
+    # max age is effectively already set in the jwt token with the delta from login
+    response.set_cookie(key='auth_token', value=jwt_token, httponly=True, samesite='Strict')
+    return response
+
+
+def create_jwt_token(email: str, user_id: int, delta: timedelta):
+
+    encode = {'sub': email, 'id': user_id}
+
+    # token will expire at given delta
+    expiry_time = datetime.now(timezone.utc) + delta
+    encode.update({
+        'exp': expiry_time
+    })
+
+    KEY = os.getenv("SECRET")
+    ALGORITHM = os.getenv("ALGORITHM")
+
+    jwt_token = jwt.encode(encode, KEY, ALGORITHM)
+
+    return jwt_token
