@@ -34,6 +34,17 @@
                     <td class="py-2 px-4 border-b">2023-02-02</td>
                     <td class="py-2 px-4 border-b"><a href="#" class="text-blue-500">Edit</a></td>
                 </tr>
+                {% for audio_file in audio_files %}
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ audio_file['title'] }}</td>
+                        <td class="py-2 px-4 border-b">{{ audio_file['description'] }}</td>
+                        <td class="py-2 px-4 border-b">{{ audio_file['file_type'] }}</td>
+                        <td class="py-2 px-4 border-b"><a href="{{ audio_file['url']}}" class="text-blue-500">Link</a></td>
+                        <td class="py-2 px-4 border-b">2024-02-01</td>
+                        <td class="py-2 px-4 border-b">2024-02-02</td>
+                        <td class="py-2 px-4 border-b"><a href="#" class="text-blue-500">Edit</a></td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

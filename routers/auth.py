@@ -103,7 +103,7 @@ async def authenticate_login(response: Response, email: Annotated[str, Form()],
         return 'Authentication Failed'
     
     # otherwise issue JWT token and redirect
-    jwt_token = create_jwt_token(user.email, user.id, timedelta(minutes=15))
+    jwt_token = create_jwt_token(user.email, user.id, timedelta(minutes=60))
 
     response = RedirectResponse(url=f'/audio-files/{user.id}', status_code=303)
 

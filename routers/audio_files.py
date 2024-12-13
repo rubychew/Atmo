@@ -55,9 +55,16 @@ async def list_files(request: Request,
     user_data = {}
     role = user.role
     username = user.username
-
     user_data.update({"standard": role, "username": username})
 
+    statement = select(Audio_File).where(token_user_id == Audio_File.user_id).limit(10)
+    results = session.exec(statement)
+    audio_files = results.all()
+
+    user_data.update({"audio_files": audio_files})
+
+
+    print(user_data)
     
     return templates.TemplateResponse("audio-files.html", {"request": request, **user_data})
 
