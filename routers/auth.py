@@ -133,3 +133,11 @@ def create_jwt_token(email: str, user_id: int, delta: timedelta):
     jwt_token = jwt.encode(encode, KEY, ALGORITHM)
 
     return jwt_token
+
+
+# logout remove jwt cookie ----------------------------------------------------------------------
+@router.get("/logout")
+async def logout(request: Request, response: Response):
+    response = templates.TemplateResponse("index.html", {"request": request})
+    response.delete_cookie('auth_token')
+    return response
