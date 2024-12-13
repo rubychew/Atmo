@@ -92,7 +92,7 @@ async def authenticate_login(response: Response, email: Annotated[str, Form()],
 
     # temporary domain restriction for application rollout
     test_email_domain(email)
-    
+   
     statement = select(User).where(User.email == email)
     user = session.exec(statement).first()
 
@@ -105,7 +105,7 @@ async def authenticate_login(response: Response, email: Annotated[str, Form()],
     # otherwise issue JWT token and redirect
     jwt_token = create_jwt_token(user.email, user.id, timedelta(minutes=15))
 
-    response = RedirectResponse(url='/audio-files', status_code=303)
+    response = RedirectResponse(url=f'/audio-files/{user.id}', status_code=303)
 
     #cookie config to include
     # domain
