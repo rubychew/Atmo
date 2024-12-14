@@ -27,8 +27,8 @@
                     <td class="py-2 px-4 border-b">{{ user['updated_at'] }}</td>
                     <td class="py-2 px-4 border-b">{{ user['last_login'] }}</td>
                     <td class="py-2 px-4 border-b">{{ user['is_logged_in'] }}</td>
-                    <td class="py-2 px-4 border-b"><a href="/edit_user" class="text-blue-500">Edit</a></td>
-                    <td class="py-2 px-4 border-b"><a href="/delete_user" class="text-blue-500">Delete</a></td>
+                    <td class="py-2 px-4 border-b"><a href="/edit-user/{{user.id}}" class="text-blue-500">Edit</a></td>
+                    <td class="py-2 px-4 border-b"><a href="/delete-user/{{user.id}}" class="text-blue-500">Delete</a></td>
                 </tr>
                 {% endfor %}
         </table>
