@@ -6,10 +6,9 @@ from dotenv import load_dotenv
 from atmo_db.models import User, Audio_File
 from atmo_db.database import get_session
 from sqlmodel import Session, select
+from fastapi.responses import RedirectResponse
 
 load_dotenv()
-
-
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -32,11 +31,12 @@ def authorise_access(request: Request):
         raise HTTPException(status_code=401, detail="401 Unauthorised: Session Expired")
     except JWTError:
         raise HTTPException(status_code=401, detail="401 Unauthorised: Invalid Token")
-
+    
+    
 
 # routes protected with authorisation ---------------------------------------------------------
-@router.get("/audio-files/{user_id}")
-async def list_files(request: Request,
+@router.get("/admin-area/{user_id}")
+async def list_users(request: Request,
                      user_id: int, 
                      token_decoded_data: dict = Depends(authorise_access),
                      session: Session = Depends(get_session)):
@@ -51,19 +51,17 @@ async def list_files(request: Request,
     statement = select(User).where(User.id == token_user_id)
     user = session.exec(statement).first()
 
-    # object to be populated and passed to front end through jinja template
-    user_data = {}
-    user_id = user.id
     role = user.role
     username = user.username
-    user_data.update({"user_id": user_id, f"{role}": role, "username": username})
 
-    statement = select(Audio_File).where(token_user_id == Audio_File.user_id).limit(10)
-    results = session.exec(statement)
-    audio_files = results.all()
-
-    user_data.update({"audio_files": audio_files})
+    if role not in ['admin', 'owner']:
+        raise HTTPException(status_code=401, detail="401 Unauthorised Access")
     
-    return templates.TemplateResponse("audio-files.html", {"request": request, **user_data})
+    # if authorised then get 10
+    users_dict = {}
+    statement = select(User)
+    results = session.exec(statement)
+    users = results.all()
+    users_dict.update({"users": users, f"{role}": role, "username": username})
 
-
+    return templates.TemplateResponse("admin-area.html", {"request": request, **users_dict})

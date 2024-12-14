@@ -1,0 +1,36 @@
+<body>
+    <div class="container mx-auto mt-8">
+        <!-- <div class="right-0">
+            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add File</button>
+        </div> -->
+        <table class="min-w-full bg-white">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Username</th>
+                    <th class="py-2 px-4 border-b">Email</th>
+                    <th class="py-2 px-4 border-b">Role</th>
+                    <th class="py-2 px-4 border-b">Created At</th>
+                    <th class="py-2 px-4 border-b">Updated At</th>
+                    <th class="py-2 px-4 border-b">Last Logged In</th>
+                    <th class="py-2 px-4 border-b">Is Logged In</th>
+                    <th class="py-2 px-4 border-b">Edit</th>
+                    <th class="py-2 px-4 border-b">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td class="py-2 px-4 border-b">{{ user['username'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user['email'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user['role'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user['created_at'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user['updated_at'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user['last_login'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user['is_logged_in'] }}</td>
+                    <td class="py-2 px-4 border-b"><a href="/edit_user" class="text-blue-500">Edit</a></td>
+                    <td class="py-2 px-4 border-b"><a href="/delete_user" class="text-blue-500">Delete</a></td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+</body>

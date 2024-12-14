@@ -4,7 +4,7 @@ from sqlmodel import SQLModel
 # Model imports required for the engine to create the schema
 from atmo_db.models import User, Audio_File
 
-from routers import auth, audio_files
+from routers import auth, audio_files, admin
 
 app = FastAPI()
 
@@ -15,3 +15,4 @@ async def startup_event():
 
 app.include_router(auth.router)
 app.include_router(audio_files.router)
+app.include_router(admin.router)
