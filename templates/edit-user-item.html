@@ -1,0 +1,42 @@
+<body>
+    <div class="container mx-auto mt-8">
+        <!-- <div class="right-0">
+            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add File</button>
+        </div> -->
+        <table class="min-w-full bg-white">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Username</th>
+                    <th class="py-2 px-4 border-b">Email</th>
+                    <th class="py-2 px-4 border-b">Role</th>
+                    <th class="py-2 px-4 border-b">Created At</th>
+                    <th class="py-2 px-4 border-b">Updated At</th>
+                    <th class="py-2 px-4 border-b">Last Logged In</th>
+                    <th class="py-2 px-4 border-b">Is Logged In</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-2 px-4 border-b">{{ user_for_update['username'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user_for_update['email'] }}</td>
+                    <td class="py-2 px-4 border-b"><form id="editform" method="post" action="/update-users/{{user_for_update['id']}}">
+                        <select name="role_option" id="role_option" class="bg-atmogreen border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <option value="{{ user_for_update['role'] }}">{{ user_for_update['role'] }}</option>
+                          <option value="{{ roles[0] }}">{{roles[0]}}</option>
+                          <option value="{{ roles[0] }}">{{roles[1]}}</option>
+                        </select></form></td>
+                    <td class="py-2 px-4 border-b">{{ user_for_update['created_at'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user_for_update['updated_at'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user_for_update['last_login'] }}</td>
+                    <td class="py-2 px-4 border-b">{{ user_for_update['is_logged_in'] }}</td>
+                </tr>
+        </table>
+        <br>
+        <br>
+        <div class="flex justify-center">
+            <button form="editform" type="submit" class="rounded-md bg-atmogreen px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+        </div>
+        <p>{{user_for_update['id']}}</p>
+    </div>
+</body>

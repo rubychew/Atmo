@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, HTTPException, Depends
+from fastapi import APIRouter, Request, HTTPException, Depends, Form
 from fastapi.templating import Jinja2Templates
 from jose import jwt, JWTError, ExpiredSignatureError
 import os
@@ -7,6 +7,7 @@ from atmo_db.models import User, Audio_File
 from atmo_db.database import get_session
 from sqlmodel import Session, select
 from fastapi.responses import RedirectResponse
+from fastapi import Form
 
 load_dotenv()
 
@@ -99,3 +100,62 @@ def delete_user(request: Request,
     users_dict.update({"users": users, f"{role}": role, "username": username})
 
     return templates.TemplateResponse("admin-area.html", {"request": request, **users_dict})
+
+
+@router.get("/edit-user/{user_id}")
+async def delete_user(request: Request,
+                     user_id: int, 
+                     token_decoded_data: dict = Depends(authorise_access),
+                     session: Session = Depends(get_session)):
+    
+    token_user_id = token_decoded_data['id']
+
+    statement = select(User).where(User.id == token_user_id)
+    user = session.exec(statement).first()
+
+    role = user.role
+
+   
+    if role not in ['owner']:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    
+    user_for_update = session.get(User, user_id)
+
+    roles = ["admin", "owner", "standard"]
+    roles.remove(user_for_update.role)
+
+    if not user_for_update:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+
+    return templates.TemplateResponse("edit-user-area.html", {"request": request, "user_for_update": user_for_update, "roles": roles})
+
+
+@router.post("/update-users/{user_id}")
+async def update_users(request: Request, user_id: int, role_option: str = Form(...),
+                      
+                     token_decoded_data: dict = Depends(authorise_access),
+                     session: Session = Depends(get_session)):
+
+    token_user_id = token_decoded_data['id']
+
+    statement = select(User).where(User.id == token_user_id)
+    user = session.exec(statement).first()
+
+    role = user.role
+
+    if role not in ['owner']:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    user_for_update = session.get(User, user_id)
+
+    if not user_for_update:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user_for_update.role = role_option
+    session.add(user_for_update)
+    session.commit()
+
+    return RedirectResponse(url=f"/admin-area/{token_user_id}", status_code=303)
+
+
