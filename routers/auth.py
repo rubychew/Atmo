@@ -11,6 +11,7 @@ from sqlmodel import Session, select
 import os
 from dotenv import load_dotenv
 from jose import jwt
+import html
 
 load_dotenv()
 
@@ -46,6 +47,12 @@ async def create_standard_user(username: Annotated[str, Form()],
                                password: Annotated[str, Form()],
                                repassword: Annotated[str, Form()], session: Session = Depends(get_session)):
     
+
+    username = html.escape(username)
+    email = html.escape(email)
+    password = html.escape(password)
+    repassword = html.escape(repassword)
+
     # temporary domain restriction for application rollout
     test_email_domain(email)
     
@@ -89,9 +96,13 @@ def register(request: Request):
 async def authenticate_login(response: Response, email: Annotated[str, Form()],
                                 password: Annotated[str, Form()],
                                 session: Session = Depends(get_session)):
+    
+    email = html.escape(email)
+    password = html.escape(password)
 
     # temporary domain restriction for application rollout
     test_email_domain(email)
+
    
     statement = select(User).where(User.email == email)
     user = session.exec(statement).first()
