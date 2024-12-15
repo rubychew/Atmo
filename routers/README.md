@@ -3,7 +3,7 @@
 ### 1.1 Overview
 There are 3 routers in the application.
 
-1. `auth.py` responsible for:
+1. `auth.py` respgitonsible for:
     - Login.
     - User account creation. Here, password complexity will be enforced and the domain used for the email will be restricted.
     - Session cookie creation and distribution. This uses Json Web Tokens to create the cookie. The secret and algorithm for which is stored in the `.env` file. Attributes for the cookie are also set in this file.

@@ -13,7 +13,6 @@ app = FastAPI()
 @app.on_event("startup")
 async def startup_event():
     SQLModel.metadata.create_all(engine)
-
 app.include_router(auth.router)
 app.include_router(audio_files.router)
 app.include_router(admin.router)
