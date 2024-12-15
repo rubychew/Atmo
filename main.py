@@ -30,6 +30,7 @@ class SecurityHeaders(BaseHTTPMiddleware):
             "script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline';"  # Allow Tailwind JS from its CDN
             "style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline';"  # Allow Tailwind CSS from its CDN
             "font-src 'self' https://cdn.tailwindcss.com;"  # Allow fonts if needed
+            "frame-ancestors 'none';"
         )
         # Prevent MIME type sniffing
         response.headers['X-Content-Type-Options'] = 'nosniff'
